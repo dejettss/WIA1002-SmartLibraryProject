@@ -8,13 +8,18 @@ public class BorrowStack {
     private Stack<Book> stack = new Stack<>();
 
     public void push(Book b) {
-        // TODO (Ahmad): push book onto the stack
-        throw new UnsupportedOperationException("push() not yet implemented - Ahmad's task");
+        stack.push(b);
     }
 
     public void show() {
-        // TODO (Ahmad): if stack is empty print "History is empty."
-        // Otherwise iterate from top (most recent) to bottom and print each book's ISBN and title
-        throw new UnsupportedOperationException("show() not yet implemented - Ahmad's task");
+        if (stack.isEmpty()) {
+            System.out.println("History is empty.");
+            return;
+        }
+        System.out.println("Borrow History (most recent first):");
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            Book b = stack.get(i);
+            System.out.println("  [ISBN: " + b.isbn + "] " + b.title);
+        }
     }
 }
