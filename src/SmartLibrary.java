@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class SmartLibrary implements LibraryADT {
 
-    // --- YOUR SECTION (Foundation & Core Logic) ---
     private BookBST catalogue = new BookBST();
     private BorrowStack history = new BorrowStack();
 
@@ -35,24 +34,121 @@ public class SmartLibrary implements LibraryADT {
     @Override
     public void viewLatestHistory() {
         history.show();
-    }
-
-    // --- RAJA'S SECTION (Console UI & Validation) ---
-    // TODO (Raja): implement runMenu(), printMenu(), handleChoice()
+    }      
 
     public void runMenu() {
-        // TODO (Raja): create Scanner, loop calling printMenu() then handleChoice()
-        throw new UnsupportedOperationException("runMenu() not yet implemented - Raja's task");
+
+        Scanner sc = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            printMenu();
+
+            try {
+                int choice = Integer.parseInt(sc.nextLine());
+
+                if (choice == 5) {
+                    System.out.println("Exiting Smart Library...");
+                    running = false;
+                } else {
+                    handleChoice(choice, sc);
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number from 1-5.");
+            }
+        }
+
+        sc.close();
     }
 
     private void printMenu() {
-        // TODO (Raja): print the numbered menu options
-        throw new UnsupportedOperationException("printMenu() not yet implemented - Raja's task");
+        System.out.println("\n--- Smart Library Menu ---");
+        System.out.println("1. Add Book");
+        System.out.println("2. Search Book by ISBN");
+        System.out.println("3. Borrow Book by ISBN");
+        System.out.println("4. View Latest Borrow History");
+        System.out.println("5. Exit");
+        System.out.print("Enter your choice: ");
     }
 
     private void handleChoice(int choice, Scanner sc) {
-        // TODO (Raja): switch on choice, read inputs, call the LibraryADT methods above
-        // Remember to wrap ISBN reads in try-catch to handle non-integer input
-        throw new UnsupportedOperationException("handleChoice() not yet implemented - Raja's task");
+         switch (choice) {
+
+         case 1:
+            try {
+                System.out.print("Enter ISBN: ");
+                int isbn = Integer.parseInt(sc.nextLine());
+
+                if (isbn <= 0) {
+                    System.out.println("ISBN must be a positive integer.");
+                    return;
+                }
+
+                // Check duplicate ISBN
+                if (catalogue.search(isbn) != null) {
+                    System.out.println("A book with ISBN " + isbn + " already exists.");
+                    return;
+                }
+
+                System.out.print("Enter Title: ");
+                String title = sc.nextLine().trim();
+
+                System.out.print("Enter Author: ");
+                String author = sc.nextLine().trim();
+
+                if (title.isEmpty() || author.isEmpty()) {
+                    System.out.println("Title and Author cannot be empty.");
+                    return;
+                }
+
+                addBook(isbn, title, author);
+
+            } catch (NumberFormatException e) {
+                System.out.println("ISBN must be an integer.");
+            }
+            break;
+
+         case 2:
+            try {
+                System.out.print("Enter ISBN to search: ");
+                int isbn = Integer.parseInt(sc.nextLine());
+
+                if (isbn <= 0) {
+                    System.out.println("ISBN must be a positive integer.");
+                    return;
+                }
+
+                searchBook(isbn);
+
+            } catch (NumberFormatException e) {
+                System.out.println("ISBN must be an integer.");
+            }
+            break;
+
+         case 3:
+            try {
+                System.out.print("Enter ISBN to borrow: ");
+                int isbn = Integer.parseInt(sc.nextLine());
+
+                if (isbn <= 0) {
+                    System.out.println("ISBN must be a positive integer.");
+                    return;
+                }
+
+                borrowBook(isbn);
+
+            } catch (NumberFormatException e) {
+                System.out.println("ISBN must be an integer.");
+            }
+            break;
+
+         case 4:
+            viewLatestHistory();
+            break;
+
+         default:
+            System.out.println("Invalid choice. Please select between 1 and 5.");
+         }
     }
 }
