@@ -22,4 +22,31 @@ public class BookBST {
         if (node == null || node.isbn == isbn) return node;
         return isbn < node.isbn ? searchRec(node.left, isbn) : searchRec(node.right, isbn);
     }
+
+    public void delete(int isbn) {
+        root = deleteRec(root, isbn);
+    }
+
+    private Book deleteRec(Book node, int isbn) {
+        if (node == null) return null;
+        if (isbn < node.isbn)
+            node.left = deleteRec(node.left, isbn);
+        else if (isbn > node.isbn)
+            node.right = deleteRec(node.right, isbn);
+        else {
+            if (node.left == null) return node.right;
+            if (node.right == null) return node.left;
+            Book successor = findMin(node.right);
+            node.isbn = successor.isbn;
+            node.title = successor.title;
+            node.author = successor.author;
+            node.right = deleteRec(node.right, successor.isbn);
+        }
+        return node;
+    }
+
+    private Book findMin(Book node) {
+        while (node.left != null) node = node.left;
+        return node;
+    }
 }

@@ -25,6 +25,7 @@ public class SmartLibrary implements LibraryADT {
         Book b = catalogue.search(isbn);
         if (b != null) {
             history.push(b);
+            catalogue.delete(isbn);
             System.out.println("Borrowed: " + b.title);
         } else {
             System.out.println("Book not in catalogue.");
