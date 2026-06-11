@@ -67,7 +67,7 @@ public class SmartLibrary implements LibraryADT {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number from 1-5.");
+                System.out.println("Invalid input. Please enter a number from 1-6.");
             }
         }
 
