@@ -11,6 +11,15 @@ public class BorrowStack {
         stack.push(b);
     }
 
+    public Book remove(int isbn) {
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            if (stack.get(i).isbn == isbn) {
+                return stack.remove(i);
+            }
+        }
+        return null;
+    }
+
     public void show() {
         if (stack.isEmpty()) {
             System.out.println("History is empty.");

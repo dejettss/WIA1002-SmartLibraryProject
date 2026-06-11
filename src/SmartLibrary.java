@@ -33,6 +33,17 @@ public class SmartLibrary implements LibraryADT {
     }
 
     @Override
+    public void returnBook(int isbn) {
+        Book b = history.remove(isbn);
+        if (b != null) {
+            catalogue.insert(b.isbn, b.title, b.author);
+            System.out.println("Returned: " + b.title);
+        } else {
+            System.out.println("Book with ISBN " + isbn + " not found in borrow history.");
+        }
+    }
+
+    @Override
     public void viewLatestHistory() {
         history.show();
     }      
@@ -48,7 +59,7 @@ public class SmartLibrary implements LibraryADT {
             try {
                 int choice = Integer.parseInt(sc.nextLine());
 
-                if (choice == 5) {
+                if (choice == 6) {
                     System.out.println("Exiting Smart Library...");
                     running = false;
                 } else {
@@ -68,8 +79,9 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("1. Add Book");
         System.out.println("2. Search Book by ISBN");
         System.out.println("3. Borrow Book by ISBN");
-        System.out.println("4. View Latest Borrow History");
-        System.out.println("5. Exit");
+        System.out.println("4. Return Book by ISBN");
+        System.out.println("5. View Latest Borrow History");
+        System.out.println("6. Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -145,11 +157,28 @@ public class SmartLibrary implements LibraryADT {
             break;
 
          case 4:
+            try {
+                System.out.print("Enter ISBN to return: ");
+                int isbn = Integer.parseInt(sc.nextLine());
+
+                if (isbn <= 0) {
+                    System.out.println("ISBN must be a positive integer.");
+                    return;
+                }
+
+                returnBook(isbn);
+
+            } catch (NumberFormatException e) {
+                System.out.println("ISBN must be an integer.");
+            }
+            break;
+
+         case 5:
             viewLatestHistory();
             break;
 
          default:
-            System.out.println("Invalid choice. Please select between 1 and 5.");
+            System.out.println("Invalid choice. Please select between 1 and 6.");
          }
     }
 }
