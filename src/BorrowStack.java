@@ -1,9 +1,6 @@
 import java.util.Stack;
 
-// --- AHMAD'S SECTION (Stack & Borrow Logic) ---
-// Contract with SmartLibrary:
-//   push(Book b)  - called by SmartLibrary.borrowBook() to record a borrow
-//   show()        - called by SmartLibrary.viewLatestHistory() to print LIFO order
+
 public class BorrowStack {
     private Stack<Book> stack = new Stack<>();
 
